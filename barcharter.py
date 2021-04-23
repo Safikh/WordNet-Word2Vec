@@ -16,7 +16,7 @@ def isIt(s, p):
     return False
 
 
-with open("textfiles/results.txt") as results:
+with open("textfiles/results.txt", encoding='utf-8') as results:
     for line in results.readlines():
         lines.append(line.replace("\n", ""))
 
@@ -54,23 +54,42 @@ count_stem = []
 count_mero = []
 base = 10
 
-for k in ks:
-    count_syn.append(math.log(len([s for s in syn if lessThanGreaterThanK(s, k)]), base))
 
 for k in ks:
-    count_hyper.append(math.log(len([s for s in hyper if lessThanGreaterThanK(s, k)]), base))
+    if len([s for s in syn if lessThanGreaterThanK(s, k)]) > 0:
+        count_syn.append(math.log(len([s for s in syn if lessThanGreaterThanK(s, k)]), base))
+    else:
+        count_syn.append(0)
 
 for k in ks:
-    count_hypo.append(math.log(len([s for s in hypo if lessThanGreaterThanK(s, k)]), base))
+    if len([s for s in hyper if lessThanGreaterThanK(s, k)]) > 0:
+        count_hyper.append(math.log(len([s for s in hyper if lessThanGreaterThanK(s, k)]), base))
+    else:
+        count_hyper.append(0)
 
 for k in ks:
-    count_holo.append(math.log(len([s for s in holo if lessThanGreaterThanK(s, k)]), base))
+    if len([s for s in hypo if lessThanGreaterThanK(s, k)]) > 0:
+        count_hypo.append(math.log(len([s for s in hypo if lessThanGreaterThanK(s, k)]), base))
+    else:
+        count_hypo.append(0)
 
 for k in ks:
-    count_mero.append(math.log(len([s for s in mero if lessThanGreaterThanK(s, k)]), base))
+    if len([s for s in holo if lessThanGreaterThanK(s, k)]) > 0:
+        count_holo.append(math.log(len([s for s in holo if lessThanGreaterThanK(s, k)]), base))
+    else:
+        count_holo.append(0)
 
 for k in ks:
-    count_stem.append(math.log(len([s for s in stem if lessThanGreaterThanK(s, k)]), base))
+    if len([s for s in mero if lessThanGreaterThanK(s, k)]) > 0:
+        count_mero.append(math.log(len([s for s in mero if lessThanGreaterThanK(s, k)]), base))
+    else:
+        count_mero.append(0)
+
+for k in ks:
+    if len([s for s in stem if lessThanGreaterThanK(s, k)]) > 0:
+        count_stem.append(math.log(len([s for s in stem if lessThanGreaterThanK(s, k)]), base))
+    else:
+        count_stem.append(0)
 
 
 count_syn = tuple(count_syn)

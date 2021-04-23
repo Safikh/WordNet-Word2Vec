@@ -12,7 +12,7 @@ def isIt(s, p):
         return True
     return False
 
-with open("textfiles/results.txt") as results:
+with open("textfiles/results.txt", encoding='utf-8') as results:
     for line in results.readlines():
         lines.append(line.replace("\n", ""))
 
@@ -46,7 +46,7 @@ floor[200] = 160
 def print_line(start, array):
     for k in ks:
         start = start + str(len([s for s in array if lessThanGreaterThanK(s, k)])) + " & "
-    print start.strip(" & ") + "\\" + "\\" + "  \hline"
+    print(start.strip(" & ") + "\\" + "\\" + "  \hline")
 
 print_line("Synonomy &", syn)
 
@@ -62,4 +62,4 @@ print_line("Same stem &", stem)
 
 print_line("Not in wordnet &", not_in_wordnet)
 
-print "Key Error &" + str(len(key_error))
+print("Key Error &" + str(len(key_error)))

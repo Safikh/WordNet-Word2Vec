@@ -24,4 +24,4 @@ with (open(args.k_file, "r")) as outfile:
 
 
 for i in range(1, 200):
-	print relation[i] / total[i]
+	print(relation[i] / total[i])

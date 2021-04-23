@@ -1,4 +1,4 @@
-from gensim.models import word2vec
+from gensim.models import word2vec, KeyedVectors
 from wordnetter import synononymous
 from wordnetter import hypernomous
 from wordnetter import not_in_wordnet
@@ -17,49 +17,52 @@ try:
 except OSError:
     pass
 
-model = word2vec.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
 stemmer = SnowballStemmer("english")
 parser = argparse.ArgumentParser()
 parser.add_argument('--out', '-o')
 args = vars(parser.parse_args())
+NUM_WORDS = 10000
 
 def same_stem(one, two):
-	if stemmer.stem(one) == stemmer.stem(two):
-		return True
-	else:
-		return False
+    if stemmer.stem(one) == stemmer.stem(two):
+        return True
+    else:
+        return False
 
 def printout(line):
     if args['out']:
         writeto = "textfiles/" + args['out']
-        with open(writeto, "a") as results:
+        with open(writeto, "a", encoding='utf-8') as results:
             results.write('\n' + line)
 
 def inStopWords(w):
-    if s in stopwords.words('english'):
+    if w in stopwords.words('english'):
         return True
     return False
 
-words = random.sample(set(reuters.words()), 10000)
+words = random.sample(set(reuters.words()), NUM_WORDS)
 
 words = [s for s in words if not inStopWords(s)]
 
 counter = 0
 for r in words:
     counter = counter + 1
-    r = r.encode('ascii', 'ignore')
+    # r = r.encode('ascii', 'ignore').decode('ascii') # bytes object is not being handled by most_similar function
     try:
         n = 0
         sims = model.most_similar(positive=[r], topn=200)
+
         for s in sims:
             n = n + 1
-            print "counter: " + str(counter) + "-" + str(n)
-            s = (s[0].encode("ascii", 'ignore'), s[1])
+            print("counter: " + str(counter) + "-" + str(n))
+            # s = (s[0].encode("ascii", 'ignore'), s[1])
             hit = False
             search = True
             if same_stem(s[0], r):
                 search = False
                 printout(",".join(['same stem', s[0], r, str(s[1]), str(n)]))
+
             if not_in_wordnet(r):
                 search = False
                 printout(",".join(['not_in_wordnet', s[0], r, str(s[1]), str(n)]))
@@ -82,5 +85,5 @@ for r in words:
                 if (((hyper + hypo + syno + holo + mero) == 0) or ((hyper + hypo + syno + holo + mero) == 5)):
                     printout(",".join(['none', s[0], r, str(s[1]), str(n)]))
     except KeyError:
-        print printout(",".join(['KeyError', r]))
+        print(printout(",".join(['KeyError', r])))
         pass

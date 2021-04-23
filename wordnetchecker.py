@@ -71,8 +71,8 @@ print "hyperfrac {}".format(hyperfac)
 print "merofrac {}".format(merofrac)
 '''
 
-print "total_syn_counts.txt {}".format(1/synfrac)
-print "total_hypo_counts.txt {}".format(1/hypofrac)
-print "total_hyper_counts.txt {}".format(1/hyperfac)
-print "total_mero_counts.txt {}".format(1/merofrac)
-print "total_holo_counts.txt {}".format(1/holofrac)
+print("total_syn_counts.txt {}".format(1/synfrac))
+print("total_hypo_counts.txt {}".format(1/hypofrac))
+print("total_hyper_counts.txt {}".format(1/hyperfac))
+print("total_mero_counts.txt {}".format(1/merofrac))
+print("total_holo_counts.txt {}".format(1/holofrac))

@@ -50,7 +50,7 @@ def to_percent(y, position):
     # Ignore the passed in position. This has the effect of scaling the default
     # tick locations.
     s = str(int(round(100 * y)))
-    print s
+    print(s)
 
     # The percent symbol needs escaping in latex
     if matplotlib.rcParams['text.usetex'] == True:
